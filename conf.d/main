@@ -25,7 +25,7 @@ dbc_authmethod_user=''
 EOF
 
 # this configures otrs (incomplete install in root.buid)
-DEBIAN_FRONTEND=noninteractive apt-get -f install otrs2
+DEBIAN_FRONTEND=noninteractive apt-get -y -f install otrs2
 
 # set admin username and password
 mysql --defaults-extra-file=/etc/mysql/debian.cnf <<EOF
