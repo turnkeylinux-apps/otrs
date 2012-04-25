@@ -1,0 +1,8 @@
+#!/bin/bash -e
+# set otrs admin password
+
+. /etc/default/inithooks
+
+[ -e $INITHOOKS_CONF ] && . $INITHOOKS_CONF
+$INITHOOKS_PATH/bin/otrs.py --pass="$APP_PASS"
+

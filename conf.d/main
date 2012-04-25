@@ -1,0 +1,56 @@
+#!/bin/sh -ex
+
+# turnkey hash: crypt.crypt('turnkey', 'ro')
+ADMIN_PASS=ro6EFA5u.JX06
+
+# start mysql
+/etc/init.d/mysql start
+
+# ugly workaround: preseeding debconf doesn't work
+cat > /etc/dbconfig-common/otrs2.conf << EOF
+dbc_install='true'
+dbc_upgrade='true'
+dbc_remove=''
+dbc_dbtype='mysql'
+dbc_dbuser='otrs'
+dbc_dbpass='jtARQnXVMWyc'
+dbc_dbserver=''
+dbc_dbport=''
+dbc_dbname='otrs2'
+dbc_dbadmin='root'
+dbc_basepath=''
+dbc_ssl=''
+dbc_authmethod_admin=''
+dbc_authmethod_user=''
+EOF
+
+# this configures otrs (incomplete install in root.buid)
+DEBIAN_FRONTEND=noninteractive apt-get -f install otrs2
+
+# set admin username and password
+mysql --defaults-extra-file=/etc/mysql/debian.cnf <<EOF
+USE otrs2;
+UPDATE users SET login = 'admin', pw = '$ADMIN_PASS'
+WHERE id = 1;
+EOF
+
+# configure permissions
+/usr/share/otrs/bin/SetPermissions.pl \
+    --otrs-user=otrs --otrs-group=www-data \
+    --web-user=www-data --web-group=www-data \
+    /usr/share/otrs
+
+# configure spellcheck dictionary
+ln -s /usr/lib/ispell/american.hash /usr/lib/ispell/english.hash
+
+# apache configuration
+rm -f /etc/apache2/conf.d/otrs2
+touch /etc/apache2/conf.d/otrs2
+ln -s /etc/otrs/apache.conf /etc/apache2/sites-available/otrs2
+rm /var/www/index.html
+a2dissite default
+a2ensite otrs2
+
+# stop mysql
+/etc/init.d/mysql stop
+
