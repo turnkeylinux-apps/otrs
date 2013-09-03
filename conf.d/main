@@ -35,7 +35,7 @@ WHERE id = 1;
 EOF
 
 # configure permissions
-/usr/share/otrs/bin/SetPermissions.pl \
+/usr/share/otrs/bin/otrs.SetPermissions.pl \
     --otrs-user=otrs --otrs-group=www-data \
     --web-user=www-data --web-group=www-data \
     /usr/share/otrs
