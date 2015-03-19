@@ -1,6 +1,6 @@
 root.build/ignore-errors = otrs2
 
-COMMON_OVERLAYS = tkl-webcp
+COMMON_OVERLAYS = tkl-webcp apache
 COMMON_CONF = postfix-local apache-vhost apache-credit tkl-webcp
 
 CREDIT_ANCHORTEXT = OTRS Appliance
