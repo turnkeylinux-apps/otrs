@@ -9,6 +9,8 @@ wamerican-large
 libgd-graph-perl
 libgd-text-perl
 
+libcgi-pm-perl
+
 procmail
 webmin-procmail
 

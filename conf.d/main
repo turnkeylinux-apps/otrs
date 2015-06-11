@@ -44,11 +44,11 @@ EOF
 ln -s /usr/lib/ispell/american.hash /usr/lib/ispell/english.hash
 
 # apache configuration
-rm -f /etc/apache2/conf.d/otrs2
-touch /etc/apache2/conf.d/otrs2
-ln -s /etc/otrs/apache.conf /etc/apache2/sites-available/otrs2
-rm /var/www/index.html
-a2dissite default
+rm -f /etc/apache2/conf-availble/otrs2*
+touch /etc/apache2/conf-available/otrs2.conf
+ln -s /etc/otrs/apache.conf /etc/apache2/sites-available/otrs2.conf
+rm -rf /var/www/html/
+a2dissite 000-default
 a2ensite otrs2
 
 # stop mysql
