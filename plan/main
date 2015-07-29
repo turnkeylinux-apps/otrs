@@ -23,6 +23,3 @@ webmin-apache
 mysql-server
 libdbd-mysql-perl
 webmin-mysql
-
-postfix
-webmin-postfix
