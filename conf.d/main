@@ -43,6 +43,9 @@ EOF
 # configure spellcheck dictionary
 ln -s /usr/lib/ispell/american.hash /usr/lib/ispell/english.hash
 
+# Install missing dependancy
+echo yes | cpan Mozilla::CA
+
 # apache configuration
 echo "#dummy otrs apache conf file; real one: /etc/otrs/apache.conf" > /etc/apache2/conf-enabled/otrs2.conf
 ln -s /etc/otrs/apache.conf /etc/apache2/sites-available/otrs2.conf
