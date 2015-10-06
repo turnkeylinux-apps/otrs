@@ -11,6 +11,15 @@ libgd-text-perl
 
 libcgi-pm-perl
 
+libmodule-refresh-perl /* OTRS deps */
+libclass-inspector-perl
+libsoap-lite-perl
+
+libtext-csv-xs-perl /* optional - but recommended */
+libjson-xs-perl /* optional - but recommended */
+
+make /* for cpan */
+
 procmail
 webmin-procmail
 
