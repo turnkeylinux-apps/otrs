@@ -61,7 +61,7 @@ Content-Type: text/html
                         <li>OTRS documentation (<a href='/docs'>local</a>,
                         <a href='http://doc.otrs.org/3.3/en/html/'>online</a>)</li>
 
-                        <li><a href="http://www.turnkeylinux.org/otrs">
+                        <li><a href="https://www.turnkeylinux.org/otrs">
                         TurnKey OTRS release notes</a></li>
                     </ul>
 
