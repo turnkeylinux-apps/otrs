@@ -4,7 +4,7 @@
 ADMIN_PASS=ro6EFA5u.JX06
 
 # start mysql
-/etc/init.d/mysql start
+service mysql start
 
 # ugly workaround: preseeding debconf doesn't work
 cat > /etc/dbconfig-common/otrs2.conf << EOF
@@ -55,5 +55,5 @@ a2ensite otrs2
 a2enmod cgid
 
 # stop mysql
-/etc/init.d/mysql stop
+service mysql stop
 
