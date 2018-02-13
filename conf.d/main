@@ -2,6 +2,8 @@
 
 # turnkey hash: crypt.crypt('turnkey', 'ro')
 ADMIN_PASS=ro6EFA5u.JX06
+DB_NAME=otrs2
+DB_USER=otrs2
 
 # start mysql
 service mysql start
@@ -12,8 +14,8 @@ dbc_install='true'
 dbc_upgrade='true'
 dbc_remove=''
 dbc_dbtype='mysql'
-dbc_dbuser='otrs'
-dbc_dbpass='jtARQnXVMWyc'
+dbc_dbuser='otrs2'
+dbc_dbpass='turnkey'
 dbc_dbserver=''
 dbc_dbport=''
 dbc_dbname='otrs2'
@@ -23,6 +25,16 @@ dbc_ssl=''
 dbc_authmethod_admin=''
 dbc_authmethod_user=''
 EOF
+dbconfig-generate-include -f perl /etc/dbconfig-common/otrs2.conf /etc/otrs/database.pm
+
+# setup the database
+MYSQL_BATCH="mysql --user=root --password=$MYSQL_PASS --batch"
+MYSQL_ADMIN="mysqladmin --user=root --password=$MYSQL_PASS"
+
+$MYSQL_ADMIN create otrs2 --default-character-set=utf8;
+patch /usr/share/dbconfig-common/data/otrs2/install/mysql /usr/local/src/otrs-db-install.patch
+mysql otrs2 < /usr/share/dbconfig-common/data/otrs2/install/mysql
+$MYSQL_BATCH --execute "grant all privileges on $DB_NAME.* to $DB_USER@localhost identified by 'turnkey'; flush privileges;"
 
 # this configures otrs (incomplete install in root.buid)
 DEBIAN_FRONTEND=noninteractive apt-get -y -f install otrs2
@@ -53,6 +65,9 @@ rm -rf /var/www/html/
 a2dissite 000-default
 a2ensite otrs2
 a2enmod cgid
+
+mkdir /run/otrs
+chown otrs:nogroup /run/otrs
 
 # stop mysql
 service mysql stop

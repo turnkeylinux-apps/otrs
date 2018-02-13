@@ -1,7 +1,6 @@
 #include <turnkey/base>
 
 otrs2
-otrs2-doc-en
 
 ispell
 wamerican-large
@@ -21,9 +20,9 @@ libjson-xs-perl /* optional - but recommended */
 make /* for cpan */
 
 procmail
+patch
 webmin-procmail
 
-apache2-mpm-worker
 libapache-dbi-perl
 libapache2-mod-perl2
 libapache2-reload-perl
