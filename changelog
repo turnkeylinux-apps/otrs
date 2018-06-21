@@ -2,10 +2,14 @@ turnkey-otrs-15.0 (1) turnkey; urgency=low
 
   * Install Latest Debian Stretch package version of OTRS.
 
+  * Replace MySQL with MariaDB (drop-in MySQL replacement)
+
+  * Updated version of mysqltuner script
+
   * Note: Please refer to turnkey-core's changelog for changes common to all
     appliances. Here we only describe changes specific to this appliance.
 
- -- Stefan Davis <stefan@turnkeylinux.org>  Thu, 08 Feb 2018 23:07:56 +1000
+ -- Stefan Davis <stefan@turnkeylinux.org>  Thu, 21 Jun 2018 11:38:58 +1000
 
 turnkey-otrs-14.2 (1) turnkey; urgency=low
 
