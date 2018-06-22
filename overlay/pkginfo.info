@@ -1,0 +1,9 @@
+d-i otrs2/mysql/admin-pass password turnkey
+d-i otrs2/mysql/app-password-confirm password turnkey
+d-i otrs2/dbconfig-install boolean true
+d-i otrs2/mysql/admin-user string root
+d-i otrs2/database-type string mysql
+d-i otrs2/mysql/method string Unix socket
+d-i otrs2/db/app-user string otrs@localhost
+d-i otrs2/dbconfig-reinstall boolean true
+d-i otrs2/db/dbname boolean otrs2
