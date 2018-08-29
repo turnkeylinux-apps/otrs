@@ -69,6 +69,10 @@ a2enmod cgid
 mkdir /run/otrs
 chown otrs:nogroup /run/otrs
 
+cd /usr/share/otrs/
+cp ./var/cron/otrs_daemon.dist ./var/cron/otrs_daemon
+su -c './bin/Cron.sh start' -s /bin/bash otrs
+
 # stop mysql
 service mysql stop
 
