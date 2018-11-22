@@ -59,7 +59,7 @@ Content-Type: text/html
                         <li>Login as <b>admin</b> and get ticketing!</li>
 
                         <li>OTRS documentation (<a href='/docs'>local</a>,
-                        <a href='http://doc.otrs.org/3.3/en/html/'>online</a>)</li>
+                        <a href='http://doc.otrs.org/5.0/en/html/'>online</a>)</li>
 
                         <li><a href="https://www.turnkeylinux.org/otrs">
                         TurnKey OTRS release notes</a></li>
