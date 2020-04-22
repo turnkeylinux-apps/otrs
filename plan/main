@@ -1,6 +1,12 @@
 #include <turnkey/base>
+#include <turnkey/mysql>
 
-otrs2
+//otrs2
+//   requires libmailtools-perl
+//   which requires libnet-perl which is a virtual package
+//   provided by perl-modules which is a virtual package
+//   provided by perl-modules-5.28
+apache2
 
 ispell
 wamerican-large
@@ -12,7 +18,7 @@ libcgi-pm-perl
 
 libmodule-refresh-perl /* OTRS deps */
 libclass-inspector-perl
-libsoap-lite-perl
+//libsoap-lite-perl requires libmailtools-perl
 
 libtext-csv-xs-perl /* optional - but recommended */
 libjson-xs-perl /* optional - but recommended */
@@ -28,6 +34,5 @@ libapache2-mod-perl2
 libapache2-reload-perl
 webmin-apache
 
-mysql-server
 libdbd-mysql-perl
 webmin-mysql

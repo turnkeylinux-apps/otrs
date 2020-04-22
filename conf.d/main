@@ -1,50 +1,49 @@
 #!/bin/sh -ex
 
-# turnkey hash: crypt.crypt('turnkey', 'ro')
-ADMIN_PASS=ro6EFA5u.JX06
-DB_NAME=otrs2
-DB_USER=otrs2
+ADMIN_PASS=turnkey
+DB_NAME=otrs
+DB_USER=otrs
 
 # start mysql
 service mysql start
 
-# ugly workaround: preseeding debconf doesn't work
-cat > /etc/dbconfig-common/otrs2.conf << EOF
-dbc_install='true'
-dbc_upgrade='true'
-dbc_remove=''
-dbc_dbtype='mysql'
-dbc_dbuser='otrs2'
-dbc_dbpass='turnkey'
-dbc_dbserver=''
-dbc_dbport=''
-dbc_dbname='otrs2'
-dbc_dbadmin='root'
-dbc_basepath=''
-dbc_ssl=''
-dbc_authmethod_admin=''
-dbc_authmethod_user=''
-EOF
-dbconfig-generate-include -f perl /etc/dbconfig-common/otrs2.conf /etc/otrs/database.pm
-
-# setup the database
 MYSQL_BATCH="mysql --user=root --password=$MYSQL_PASS --batch"
 MYSQL_ADMIN="mysqladmin --user=root --password=$MYSQL_PASS"
 
-$MYSQL_ADMIN create otrs2 --default-character-set=utf8;
-patch /usr/share/dbconfig-common/data/otrs2/install/mysql /usr/local/src/otrs-db-install.patch
-mysql otrs2 < /usr/share/dbconfig-common/data/otrs2/install/mysql
-$MYSQL_BATCH --execute "grant all privileges on $DB_NAME.* to $DB_USER@localhost identified by 'turnkey'; flush privileges;"
+$MYSQL_ADMIN create otrs --default-character-set=utf8;
 
-# this configures otrs (incomplete install in root.buid)
-DEBIAN_FRONTEND=noninteractive apt-get -y -f install otrs2
-
-# set admin username and password
-mysql --defaults-extra-file=/etc/mysql/debian.cnf <<EOF
-USE otrs2;
-UPDATE users SET login = 'admin', pw = '$ADMIN_PASS'
-WHERE id = 1;
+cat <<EOF | debconf-set-selections
+otrs2   otrs2/app-password-confirm  password turnkey
+otrs2   otrs2/password-confirm  password turnkey
+otrs2   otrs2/mysql/admin-pass  password
+otrs2   otrs2/mysql/admin-user  string  root
+otrs2   otrs2/dbconfig-install  boolean true
+otrs2   otrs2/internal/reconfiguring    boolean false
+otrs2   otrs2/install-error select  abort
+otrs2   otrs2/database-type select  mysql
+otrs2   otrs2/mysql/method  select  Unix socket
+otrs2   otrs2/internal/skip-preseed boolean false
+otrs2   otrs2/db/dbname string  $DB_NAME
+otrs2   otrs2/upgrade-backup    boolean true
+otrs2   otrs2/upgrade-error select  abort
+otrs2   otrs2/dbconfig-reinstall    boolean false
+otrs2   otrs2/db/app-user   string  $DB_NAME@localhost
+otrs2   otrs2/dbconfig-remove   boolean true
+otrs2   otrs2/passwords-do-not-match    error   
+otrs2   otrs2/missing-db-package-error  select  abort
+otrs2   otrs2/remote/port   string  
+otrs2   otrs2/remote/host   select  localhost
+otrs2   otrs2/purge boolean false
+otrs2   otrs2/dbconfig-upgrade  boolean true
+otrs2   otrs2/remote/newhost    string  
+otrs2   otrs2/remove-error  select  abort
 EOF
+
+apt update
+DEBIAN_FRONTEND=noninteractive apt install --assume-yes otrs2
+
+# set admin password
+su -c '/usr/share/otrs/bin/otrs.Console.pl Admin::User::SetPassword root@localhost '"$ADMIN_PASS" -s /bin/bash otrs
 
 # configure permissions
 /usr/share/otrs/bin/otrs.SetPermissions.pl \
@@ -66,9 +65,12 @@ a2dissite 000-default
 a2ensite otrs2
 a2enmod cgid
 
+
+# cron email config
+sed 's/^#MAILTO=\(.*\)$/MAILTO=\1/' /etc/otrs/cron
+
 mkdir /run/otrs
 chown otrs:nogroup /run/otrs
-
 cd /usr/share/otrs/
 cp ./var/cron/otrs_daemon.dist ./var/cron/otrs_daemon
 su -c './bin/Cron.sh start' -s /bin/bash otrs

@@ -1,5 +1,3 @@
-root.build/ignore-errors = otrs2
-
 COMMON_OVERLAYS = tkl-webcp apache
 COMMON_CONF = apache-vhost apache-credit tkl-webcp
 
