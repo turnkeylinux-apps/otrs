@@ -39,14 +39,16 @@ otrs2   otrs2/remote/newhost    string
 otrs2   otrs2/remove-error  select  abort
 EOF
 
-apt update
-DEBIAN_FRONTEND=noninteractive apt install --assume-yes otrs2
+apt-get update
+DEBIAN_FRONTEND=noninteractive apt-get install --assume-yes otrs2
 
+SU="su otrs -s /bin/bash -c"
+BIN=/usr/share/otrs/bin
 # set admin password
-su -c '/usr/share/otrs/bin/otrs.Console.pl Admin::User::SetPassword root@localhost '"$ADMIN_PASS" -s /bin/bash otrs
+$SU "LC_ALL=C.UTF-8 $BIN/otrs.Console.pl Admin::User::SetPassword root@localhost $ADMIN_PASS"
 
 # configure permissions
-/usr/share/otrs/bin/otrs.SetPermissions.pl \
+$BIN/otrs.SetPermissions.pl \
     --otrs-user=otrs --otrs-group=www-data \
     --web-user=www-data --web-group=www-data \
     /usr/share/otrs
@@ -65,16 +67,13 @@ a2dissite 000-default
 a2ensite otrs2
 a2enmod cgid
 
-
 # cron email config
 sed 's/^#MAILTO=\(.*\)$/MAILTO=\1/' /etc/otrs/cron
 
 mkdir /run/otrs
 chown otrs:nogroup /run/otrs
-cd /usr/share/otrs/
-cp ./var/cron/otrs_daemon.dist ./var/cron/otrs_daemon
-su -c './bin/Cron.sh start' -s /bin/bash otrs
+cp /usr/share/otrs/var/cron/otrs_daemon.dist /usr/share/otrs/var/cron/otrs_daemon
+$SU "$BIN/Cron.sh start"
 
 # stop mysql
 service mysql stop
-
