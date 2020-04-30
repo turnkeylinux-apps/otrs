@@ -3,6 +3,7 @@
 
 Option:
     --pass=     unless provided, will ask interactively
+    --email=    unless provided, will ask interactively
 
 """
 
@@ -55,7 +56,7 @@ def main():
 
     quoted_password = shlex.quote(password)
     subprocess.run(['su', '-c',
-        f'/usr/share/otrs/bin/otrs.Console.pl Admin::User::SetPassword root@localhost {quoted_password}',
+        f'LC_ALL=C.UTF-8 /usr/share/otrs/bin/otrs.Console.pl Admin::User::SetPassword root@localhost {quoted_password}',
         '-s', '/bin/bash', 'otrs'])
     
     lines = []
