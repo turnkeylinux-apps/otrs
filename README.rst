@@ -28,8 +28,8 @@ Credentials *(passwords set at first boot)*
 -------------------------------------------
 
 -  Webmin, Webshell, SSH, MySQL: username **root**
--  OTRS: username **admin**
+-  OTRS: username **root@localhost**
 
 
-.. _OTRS: http://otrs.org
+.. _OTRS: https://otrs.org
 .. _TurnKey Core: https://www.turnkeylinux.org/core

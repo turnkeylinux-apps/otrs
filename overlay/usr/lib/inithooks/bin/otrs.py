@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Set OTRS admin password
+"""Set OTRS admin ('root@localhost') password
 
 Option:
     --pass=     unless provided, will ask interactively
@@ -41,7 +41,7 @@ def main():
         d = Dialog('TurnKey Linux - First boot configuration')
         password = d.get_password(
             "OTRS Password",
-            "Enter new password for the OTRS 'admin' account.")
+            "Enter new password for the OTRS 'root@localhost' account.")
 
     if not email:
         if 'd' not in locals():
