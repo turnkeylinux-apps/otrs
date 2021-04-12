@@ -60,6 +60,7 @@ ln -s /usr/lib/ispell/american.hash /usr/lib/ispell/english.hash
 echo yes | cpan Mozilla::CA
 
 # apache configuration
+service apache2 start
 echo "#dummy otrs apache conf file; real one: /etc/otrs/apache.conf" > /etc/apache2/conf-enabled/otrs2.conf
 ln -s /etc/otrs/apache.conf /etc/apache2/sites-available/otrs2.conf
 rm -rf /var/www/html/
@@ -75,5 +76,7 @@ chown otrs:nogroup /run/otrs
 cp /usr/share/otrs/var/cron/otrs_daemon.dist /usr/share/otrs/var/cron/otrs_daemon
 $SU "$BIN/Cron.sh start"
 
-# stop mysql
+# stop services
 service mysql stop
+service apache2 stop
+
