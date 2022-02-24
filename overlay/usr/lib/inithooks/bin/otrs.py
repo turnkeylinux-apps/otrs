@@ -10,10 +10,10 @@ Option:
 import sys
 import getopt
 import shlex
-import inithooks_cache
+from libinithooks import inithooks_cache
 import re
 
-from dialog_wrapper import Dialog
+from libinithooks.dialog_wrapper import Dialog
 import subprocess
 
 def usage(s=None):
