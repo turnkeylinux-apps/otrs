@@ -36,6 +36,8 @@ def main():
             usage()
         elif opt == '--pass':
             password = val
+        elif opt == '--email':
+            email = val
 
     if not password:
         d = Dialog('TurnKey Linux - First boot configuration')
@@ -71,4 +73,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
