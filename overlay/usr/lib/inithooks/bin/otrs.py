@@ -3,18 +3,16 @@
 
 Option:
     --pass=     unless provided, will ask interactively
-    --email=    unless provided, will ask interactively
 
 """
 
 import sys
 import getopt
 import shlex
-from libinithooks import inithooks_cache
 import re
+import subprocess
 
 from libinithooks.dialog_wrapper import Dialog
-import subprocess
 
 def usage(s=None):
     if s:
@@ -30,7 +28,6 @@ def main():
         usage(e)
 
     password = ""
-    email = ""
     for opt, val in opts:
         if opt in ('-h', '--help'):
             usage()
@@ -43,32 +40,10 @@ def main():
             "OTRS Password",
             "Enter new password for the OTRS 'root@localhost' account.")
 
-    if not email:
-        if 'd' not in locals():
-            d = Dialog('Turnkey Linux - First boot configuration')
-        
-        email = d.get_email(
-            "OTRS Email",
-            "Enter email address for the OTRS 'admin' account.",
-            "admin@example.com")
-
-    inithooks_cache.write('APP_EMAIL', email)
-
     quoted_password = shlex.quote(password)
     subprocess.run(['su', '-c',
         f'LC_ALL=C.UTF-8 /usr/share/otrs/bin/otrs.Console.pl Admin::User::SetPassword root@localhost {quoted_password}',
         '-s', '/bin/bash', 'otrs'])
     
-    lines = []
-    with open('/etc/otrs/cron', 'r') as fob:
-        for line in fob:
-            lines.append(re.sub(
-                r'^MAILTO=".*"\s*$',
-                'MAILTO={}'.format(shlex.quote(email)),
-                line))
-    with open('/etc/otrs/cron', 'w') as fob:
-        fob.writelines(lines)
-
 if __name__ == "__main__":
     main()
-
