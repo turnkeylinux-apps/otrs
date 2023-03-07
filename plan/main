@@ -1,11 +1,6 @@
 #include <turnkey/base>
 #include <turnkey/mysql>
 
-//otrs2
-//   requires libmailtools-perl
-//   which requires libnet-perl which is a virtual package
-//   provided by perl-modules which is a virtual package
-//   provided by perl-modules-5.28
 apache2
 
 ispell
