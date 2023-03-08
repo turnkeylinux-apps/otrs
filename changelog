@@ -1,3 +1,14 @@
+turnkey-otrs-17.3 (1) turnkey; urgency=low
+
+  * Install OTRS v6.4.5 (from backports)
+
+  * Updated all relevant Debian packages to Bullseye/11 versions
+
+  * Note: Please refer to turnkey-core's 17.0 changelog for changes common to all
+    appliances. Here we only describe changes specific to this appliance.
+
+ -- Stefan Davis <stefan@turnkeylinux.org>  Tue, 07 Mar 2023 23:06:22 +0000
+
 turnkey-otrs-17.2 (1) turnkey; urgency=low
 
   * Refactored inithook to resolve Hub launch bug - closes #1783.
