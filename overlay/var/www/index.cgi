@@ -45,13 +45,10 @@ Content-Type: text/html
                         <img src="images/otrs.png"/>Customers</a>
                     </div>
                     <div>
-                        <a href="https://$ENV{'HTTP_HOST'}:12320">
-                        <img src="images/shell.png"/>Web Shell</a>
-                    </div>
-                    <div>
                         <a href="https://$ENV{'HTTP_HOST'}:12321">
                         <img src="images/webmin.png"/>Webmin</a>
                     </div>
+                    <div></div>
                     <div></div>
 
                     <h2>Resources and references</h2>
